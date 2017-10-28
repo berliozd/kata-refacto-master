@@ -14,6 +14,8 @@ require_once __DIR__ . '/../src/Repository/DestinationRepository.php';
 require_once __DIR__ . '/../src/Repository/QuoteRepository.php';
 require_once __DIR__ . '/../src/Repository/SiteRepository.php';
 require_once __DIR__ . '/../src/TemplateManager.php';
+require_once __DIR__ . '/../src/Renderer/QuoteRender.php';
+
 
 $faker = \Faker\Factory::create();
 
@@ -24,6 +26,11 @@ $template = new Template(
 Bonjour [user:first_name],
 
 Merci d'avoir contacté un agent local pour votre voyage <a href='[quote:destination_link]'>[quote:destination_name]</a>.
+<br>
+Résumé de la destination : [quote:summary]
+<br>
+Résumé de la destination (html) : [quote:summary_html]
+
 
 Bien cordialement,
 
