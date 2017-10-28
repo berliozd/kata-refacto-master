@@ -23,7 +23,7 @@ $template = new Template(
     "
 Bonjour [user:first_name],
 
-Merci d'avoir contacté un agent local pour votre voyage [quote:destination_name].
+Merci d'avoir contacté un agent local pour votre voyage <a href='[quote:destination_link]'>[quote:destination_name]</a>.
 
 Bien cordialement,
 
