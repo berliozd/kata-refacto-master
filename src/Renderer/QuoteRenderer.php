@@ -6,7 +6,7 @@
  * Date: 29/10/2017
  * Time: 00:22
  */
-class QuoteRender
+class QuoteRenderer
 {
 
     use SingletonTrait;
@@ -32,9 +32,9 @@ class QuoteRender
     public function destination_link()
     {
         $destination = DestinationRepository::getInstance()->getById($this->quote->destinationId);
-        $usefulObject = SiteRepository::getInstance()->getById($this->quote->siteId);
+        $site = SiteRepository::getInstance()->getById($this->quote->siteId);
 
-        return $usefulObject->url . '/' . $destination->countryName . '/quote/' . $this->quote->id;
+        return $site->url . '/' . $destination->countryName . '/quote/' . $this->quote->id;
     }
 
     /**

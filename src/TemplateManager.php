@@ -38,9 +38,9 @@ class TemplateManager
 
         if ($quote) {
 
-            $_quoteFromRepository = QuoteRepository::getInstance()->getById($quote->id);
-            $quoteRenderer = QuoteRender::getInstance();
-            $quoteRenderer->setQuote($_quoteFromRepository);
+            $quote = QuoteRepository::getInstance()->getById($quote->id);
+            $quoteRenderer = QuoteRenderer::getInstance();
+            $quoteRenderer->setQuote($quote);
 
             $text = str_replace('[quote:summary_html]', $quoteRenderer->summary_html(), $text);
             $text = str_replace('[quote:summary]', $quoteRenderer->summary(), $text);
@@ -60,11 +60,15 @@ class TemplateManager
      */
     private function replaceUserData($text, array $data, $APPLICATION_CONTEXT)
     {
-        $_user = (isset($data['user']) and ($data['user'] instanceof User)) ? $data['user'] : $APPLICATION_CONTEXT->getCurrentUser();
-        if ($_user) {
-            (strpos($text, '[user:first_name]') !== false) and $text = str_replace('[user:first_name]',
-                ucfirst(mb_strtolower($_user->firstname)), $text);
+        $user = (isset($data['user']) and ($data['user'] instanceof User)) ? $data['user'] : $APPLICATION_CONTEXT->getCurrentUser();
+
+        if ($user) {
+            $userRenderer = UserRenderer::getInstance();
+            $userRenderer->setUser($user);
+
+            $text = str_replace('[user:first_name]', $userRenderer->first_name(), $text);
         }
+
         return $text;
     }
 }
