@@ -19,6 +19,21 @@ class TemplateManager
     {
         $APPLICATION_CONTEXT = ApplicationContext::getInstance();
 
+        $text = $this->replaceQuoteData($text, $data);
+        $text = $this->replaceUserData($text, $data, $APPLICATION_CONTEXT);
+
+        return $text;
+    }
+
+    /**
+     * Replace quote data in text
+     * @param $text
+     * @param $data
+     * @return mixed
+     */
+    private function replaceQuoteData($text, $data)
+    {
+
         $quote = (isset($data['quote']) and $data['quote'] instanceof Quote) ? $data['quote'] : null;
 
         if ($quote) {
@@ -60,17 +75,23 @@ class TemplateManager
         } else {
             $text = str_replace('[quote:destination_link]', '', $text);
         }
+        return $text;
+    }
 
-        /*
-         * USER
-         * [user:*]
-         */
+    /**
+     * Replace user data in text
+     * @param $text
+     * @param array $data
+     * @param $APPLICATION_CONTEXT
+     * @return mixed
+     */
+    private function replaceUserData($text, array $data, $APPLICATION_CONTEXT)
+    {
         $_user = (isset($data['user']) and ($data['user'] instanceof User)) ? $data['user'] : $APPLICATION_CONTEXT->getCurrentUser();
         if ($_user) {
             (strpos($text, '[user:first_name]') !== false) and $text = str_replace('[user:first_name]',
                 ucfirst(mb_strtolower($_user->firstname)), $text);
         }
-
         return $text;
     }
 }
